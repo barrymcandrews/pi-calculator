@@ -1,10 +1,8 @@
 package com.bmcandrews.practice;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-
     public Thread thread = new Thread(this::collectData);
     public long samples;
     public long m = 0;
@@ -28,7 +26,7 @@ public class Main {
         }
 
         long mTotal = 0;
-        for(int i = 0; i < mains.length; i++) {
+        for (int i = 0; i < mains.length; i++) {
             mains[i].thread.join();
             mTotal += mains[i].m;
         }
@@ -38,7 +36,7 @@ public class Main {
     }
 
     public void collectData() {
-        Random random = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         for (int i = 0; i < this.samples; i++) {
             double x = random.nextDouble();
             double y = random.nextDouble();
