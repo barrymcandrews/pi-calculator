@@ -21,24 +21,20 @@ public class Main {
 	    System.out.println("Number of Threads:\t" + numberOfThreads);
         System.out.println("Number of Samples:\t" + numberOfSamples);
 
-        ArrayList<Main> mains = new ArrayList<Main>();
+        Main[] mains = new Main[(int)numberOfThreads];
         for (int i = 0; i < numberOfThreads; i++) {
-            Main m = new Main(samplesPerThread);
-            mains.add(m);
-            m.thread.start();
+            mains[i] = new Main(samplesPerThread);
+            mains[i].thread.start();
         }
 
-        for(int i = 0; i < mains.size(); i++)
-            mains.get(i).thread.join();
-
         long mTotal = 0;
-        for (int i = 0; i < mains.size(); i++) {
-            mTotal += mains.get(i).m;
+        for(int i = 0; i < mains.length; i++) {
+            mains[i].thread.join();
+            mTotal += mains[i].m;
         }
 
         double pi = ((double)mTotal / (double)numberOfSamples) * 4.0;
         System.out.println("Calculated Pi:\t" + pi);
-
     }
 
     public void collectData() {
